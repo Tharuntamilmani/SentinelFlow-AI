@@ -1,0 +1,123 @@
+[
+  {
+    "event_id": "SEC-EVT-001",
+    "scenario_code": "A",
+    "name": "Failed Logins Followed by Suspicious IP Success",
+    "event_type": "auth.login.anomalous_sequence",
+    "severity": "HIGH",
+    "username": "alice.smith",
+    "source_ip": "185.220.101.5",
+    "device": "DESKTOP-WIN-UNKNOWN",
+    "location": "St. Petersburg, Russia",
+    "failed_login_count": 8,
+    "privilege_level": "Standard",
+    "event_description": "User account 'alice.smith' experienced 8 consecutive failed password attempts over 3 minutes followed immediately by a successful session authentication from an anomalous Tor exit relay IP address.",
+    "expected_action": "INVESTIGATE",
+    "raw_metadata": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) TorBrowser/13.0",
+      "auth_method": "Password+MFA_Push_Bypassed",
+      "session_duration_sec": 45
+    }
+  },
+  {
+    "event_id": "SEC-EVT-002",
+    "scenario_code": "B",
+    "name": "Routine Successful Login from Known Corporate Device",
+    "event_type": "auth.login.standard",
+    "severity": "LOW",
+    "username": "bob.corporate",
+    "source_ip": "10.0.14.88",
+    "device": "CORP-MAC-042",
+    "location": "San Francisco, US",
+    "failed_login_count": 0,
+    "privilege_level": "Standard",
+    "event_description": "Routine interactive SSO authentication for user 'bob.corporate' from company-managed compliant MacBook with active FileVault and valid Kerberos ticket during standard business hours.",
+    "expected_action": "CLOSE",
+    "raw_metadata": {
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+      "auth_method": "FIDO2_Hardware_Key",
+      "edr_compliant": true
+    }
+  },
+  {
+    "event_id": "SEC-EVT-003",
+    "scenario_code": "C",
+    "name": "Suspicious Privilege Escalation via Domain Admin Token",
+    "event_type": "system.privilege.elevation",
+    "severity": "CRITICAL",
+    "username": "svc_readonly_audit",
+    "source_ip": "10.0.4.15",
+    "device": "SERVER-PROD-DB01",
+    "location": "Ashburn Datacenter, US",
+    "failed_login_count": 0,
+    "privilege_level": "Administrator",
+    "event_description": "Service account 'svc_readonly_audit' unexpectedly spawned elevated cmd.exe and manipulated Windows security access token SeDebugPrivilege to grant local Administrator privileges on production PostgreSQL cluster.",
+    "expected_action": "ESCALATE",
+    "raw_metadata": {
+      "parent_process": "powershell.exe -enc SQBFAFgA...",
+      "target_process": "cmd.exe",
+      "token_elevation_type": "TokenElevationTypeFull",
+      "integrity_level": "High"
+    }
+  },
+  {
+    "event_id": "SEC-EVT-004",
+    "scenario_code": "D",
+    "name": "High-Volume Distributed Auth Brute-Force Attack",
+    "event_type": "network.auth.brute_force",
+    "severity": "HIGH",
+    "username": "multiple_targets",
+    "source_ip": "45.33.32.156",
+    "device": "GATEWAY-AUTH-WAF",
+    "location": "Frankfurt, Germany",
+    "failed_login_count": 540,
+    "privilege_level": "Standard",
+    "event_description": "Rapid succession of 540 failed authentication POST requests directed at /api/v1/auth/token within 90 seconds originating from a known bulletproof VPS subnet, targeting 42 distinct executive usernames.",
+    "expected_action": "ESCALATE",
+    "raw_metadata": {
+      "http_status": 401,
+      "user_agent": "Python-urllib/3.10",
+      "attack_pattern": "Credential_Stuffing_Dictionary"
+    }
+  },
+  {
+    "event_id": "SEC-EVT-005",
+    "scenario_code": "E",
+    "name": "Unusual Outbound Data Transfer During Non-Business Hours",
+    "event_type": "data.exfiltration.anomaly",
+    "severity": "MEDIUM",
+    "username": "carol.dev",
+    "source_ip": "203.0.113.89",
+    "device": "DEV-WORKSTATION-09",
+    "location": "Panama City, Panama",
+    "failed_login_count": 0,
+    "privilege_level": "Standard",
+    "event_description": "Workstation assigned to 'carol.dev' initiated an anomalous 14.8 GB outbound encrypted SFTP session at 03:14 AM local time to an unrecognized external VPS with no prior network history.",
+    "expected_action": "INVESTIGATE",
+    "raw_metadata": {
+      "bytes_sent": 15891456000,
+      "dest_port": 2222,
+      "protocol": "SFTP/SSH",
+      "dlp_flag": "Potential_Archive_Upload"
+    }
+  },
+  {
+    "event_id": "SEC-EVT-006",
+    "scenario_code": "F",
+    "name": "Incomplete Corrupted Audit Event with Missing Fields",
+    "event_type": "system.audit.incomplete",
+    "severity": "LOW",
+    "username": null,
+    "source_ip": null,
+    "device": null,
+    "location": null,
+    "failed_login_count": 0,
+    "privilege_level": "Standard",
+    "event_description": "Malformed sys-log chunk received: log line truncated by upstream syslog collector at byte offset 128. Missing source IP address, missing originating user identity, context unverified.",
+    "expected_action": "INVESTIGATE",
+    "raw_metadata": {
+      "raw_syslog_fragment": "<134>1 2026-10-22T04:12:00Z - - - [TRUNCATED_PACKET]",
+      "packet_loss_flag": true
+    }
+  }
+]

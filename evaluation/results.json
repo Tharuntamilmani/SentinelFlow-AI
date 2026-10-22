@@ -1,0 +1,112 @@
+{
+  "model_name": "Strands Decider 2B (Qwen3.5-v1)",
+  "baseline_name": "Amazon Bedrock LLM Prompt Classifier (Claude 3.5 Sonnet)",
+  "sample_size": 36,
+  "accuracy": 0.75,
+  "baseline_accuracy": 0.667,
+  "macro_precision": 0.832,
+  "macro_recall": 0.75,
+  "macro_f1": 0.738,
+  "avg_latency_ms": 140.3,
+  "baseline_avg_latency_ms": 1925.0,
+  "human_review_rate": 0.417,
+  "invalid_output_rate": 0.0,
+  "confusion_matrix": {
+    "CLOSE": {
+      "CLOSE": 5,
+      "INVESTIGATE": 7,
+      "ESCALATE": 0
+    },
+    "INVESTIGATE": {
+      "CLOSE": 0,
+      "INVESTIGATE": 11,
+      "ESCALATE": 1
+    },
+    "ESCALATE": {
+      "CLOSE": 0,
+      "INVESTIGATE": 1,
+      "ESCALATE": 11
+    }
+  },
+  "baseline_confusion_matrix": {
+    "CLOSE": {
+      "CLOSE": 5,
+      "INVESTIGATE": 7,
+      "ESCALATE": 0
+    },
+    "INVESTIGATE": {
+      "CLOSE": 1,
+      "INVESTIGATE": 10,
+      "ESCALATE": 1
+    },
+    "ESCALATE": {
+      "CLOSE": 1,
+      "INVESTIGATE": 2,
+      "ESCALATE": 9
+    }
+  },
+  "sample_cases": [
+    {
+      "scenario": "BM-01: auth.login.standard (Routine successful SSO login from corpor...)",
+      "decider_action": "CLOSE",
+      "baseline_action": "CLOSE",
+      "ground_truth": "CLOSE",
+      "decider_latency_ms": 1818.3,
+      "baseline_latency_ms": 2050.0,
+      "agreement": true
+    },
+    {
+      "scenario": "BM-02: auth.login.standard (Standard corporate laptop authentication...)",
+      "decider_action": "CLOSE",
+      "baseline_action": "CLOSE",
+      "ground_truth": "CLOSE",
+      "decider_latency_ms": 92.4,
+      "baseline_latency_ms": 2050.0,
+      "agreement": true
+    },
+    {
+      "scenario": "BM-03: auth.login.standard (Normal workstation login with Kerberos t...)",
+      "decider_action": "CLOSE",
+      "baseline_action": "CLOSE",
+      "ground_truth": "CLOSE",
+      "decider_latency_ms": 92.4,
+      "baseline_latency_ms": 2000.0,
+      "agreement": true
+    },
+    {
+      "scenario": "BM-04: network.dns.query (Routine internal DNS lookup for company ...)",
+      "decider_action": "CLOSE",
+      "baseline_action": "CLOSE",
+      "ground_truth": "CLOSE",
+      "decider_latency_ms": 92.4,
+      "baseline_latency_ms": 2050.0,
+      "agreement": true
+    },
+    {
+      "scenario": "BM-05: system.service.start (Scheduled systemd timer service restart ...)",
+      "decider_action": "INVESTIGATE",
+      "baseline_action": "INVESTIGATE",
+      "ground_truth": "CLOSE",
+      "decider_latency_ms": 92.4,
+      "baseline_latency_ms": 1800.0,
+      "agreement": true
+    },
+    {
+      "scenario": "BM-06: auth.screen.unlock (Screen unlock using biometric TouchID on...)",
+      "decider_action": "INVESTIGATE",
+      "baseline_action": "INVESTIGATE",
+      "ground_truth": "CLOSE",
+      "decider_latency_ms": 92.4,
+      "baseline_latency_ms": 2125.0,
+      "agreement": true
+    }
+  ],
+  "hardware_report": {
+    "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+    "base_torso": "Qwen/Qwen3.5-2B-Base with pointer decision head",
+    "parameters": "2.0 Billion",
+    "decoding_overhead": "0 ms (Direct pointer head readout, no text token generation)",
+    "baseline_model": "anthropic.claude-3-5-sonnet-20241022-v2:0 via Amazon Bedrock",
+    "evaluated_at": "2026-10-22T15:30:39Z"
+  }
+}
